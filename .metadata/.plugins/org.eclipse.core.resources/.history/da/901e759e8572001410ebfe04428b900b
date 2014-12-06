@@ -1,0 +1,51 @@
+package week01;
+
+import test.AbstractTestCase;
+
+public class TestHelloWorld extends AbstractTestCase
+{
+	/**
+	 * Default constructor
+	 */
+	public TestHelloWorld()
+	{
+		super("Hello World Test Case");
+		
+		// other initialization code
+	}
+
+	@Override
+	protected boolean runTest()
+	{
+		boolean result = true;
+		HelloWorld hello = new HelloWorld();
+		
+		String msg = hello.display();
+		
+		m_results = "Results from executing display() method: \n";
+		m_results += msg ;
+		trace("\n\n");
+		
+        if(msg.length() > 1 && msg.contains("Hello World from"))
+        {
+        	result = true;        	
+        }
+        else
+        {
+        	result = false;
+        	m_results += "Message doesn't match requirements";
+        }        
+
+        return result;
+
+	}
+
+	@Override
+	protected String results()
+	{
+		// TODO Auto-generated method stub
+		return m_results;
+	}
+
+	protected String m_results = "";
+}

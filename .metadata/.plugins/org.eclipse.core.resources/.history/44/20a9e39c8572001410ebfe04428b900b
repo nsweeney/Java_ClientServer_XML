@@ -1,0 +1,11 @@
+setlocal
+SET JAVA_HOME=C:\Users\scottl\tools\java\jdk1.7.0_40
+SET ANT_HOME=C:\Users\scottl\school\ucf\sw2\2014-fall\svn\tools\ant
+SET ANT_BAT=%ANT_HOME%\bin\ant.bat
+SET BUILD_XML=C:\Users\scottl\school\ucf\sw2\2014-fall\svn\src\cen4025\src\week13\build\build.xml
+SET WEBAPP_DST_FLDR=C:\Users\scottl\school\ucf\sw2\2014-fall\svn\webapp\week13app
+SET SRC_FLDR=C:/Users/scottl/school/ucf/sw2/2014-fall/svn/src/cen4025/src
+
+%ANT_BAT% -buildfile %BUILD_XML% -DsrcFolder=%SRC_FLDR% -DwebappDstFolder=%WEBAPP_DST_FLDR% %1
+
+endlocal

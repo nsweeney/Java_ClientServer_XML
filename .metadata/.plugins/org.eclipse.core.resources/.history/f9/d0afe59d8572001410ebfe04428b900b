@@ -1,0 +1,5 @@
+setlocal
+SET SRC=C:\Users\nick\Documents\localEcWksp\test_week09\cen4025\src\week12\week13App_team7.war
+SET DST=C:\Users\nick\Desktop\apache_tomcat\apache-tomcat-8.0.14-windows-x64\apache-tomcat-8.0.14\webapps
+xcopy %SRC% %DST% /Y
+endlocal

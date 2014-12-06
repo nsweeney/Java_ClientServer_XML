@@ -1,0 +1,24 @@
+package week09;
+
+/**
+ * This class demonstrates a simple class with a public method
+ * Note: There is no main method
+ * 
+ * This example shows how to declare a class in Java, 
+ * how to declare a method in java (display).
+ * Method declarations have four parts: visibility modifier, return type, name, optional parameters
+ * @author Scott LaChance
+ * 
+ */
+public class HelloWorld
+{ 
+	/**
+	 * Returns the Hello World text
+	 * @return Hello World text
+	 */
+	public String display()
+	{		
+		return "Hello World from Scott LaChance";
+	}
+}
+  

@@ -1,0 +1,7 @@
+http://localhost:8080/week12App_team7
+
+Modified: build.xml, build_webapp.bat, deploy.bat, user-accounts.jsp, LoginServlet.java
+
+From "C:\Users\nick\Documents\localEcWksp\test_week09\cen4025\src\week12"
+@ cmd: build_webapp.bat   //this builds my app and puts it into "C:\Users\nick\Documents\localEcWksp\webapp\week12app_team7"
+@ cmd: deploy.bat 		  //this sent my .war file to apache webapps folder

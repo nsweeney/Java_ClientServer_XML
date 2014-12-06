@@ -1,0 +1,9 @@
+setlocal
+SET JBOSS_BIN=D:\tools\java\jboss-as-7.1.1.Final\jboss-as-7.1.1.Final\bin\
+SET LAUNCH=standalone.bat
+
+D:
+
+CD %JBOSS_BIN%
+%LAUNCH% 
+endlocal

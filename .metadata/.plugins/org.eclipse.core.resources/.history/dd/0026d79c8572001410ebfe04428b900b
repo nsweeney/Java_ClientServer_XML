@@ -1,0 +1,84 @@
+<project name="Build" default="all" basedir="..">
+  
+  <description>Builds week11 project web application</description>
+  
+  <!-- Source folder location for week11 -->
+  <property name="srcFldr" value="${srcFolder}"/>
+  
+  <!-- library folder location for week11 -->
+    <property name="libraries" value="C:/Users/scottl/school/ucf/sw2/2014-fall/svn/src/cen4025/lib"/>
+  
+  <!-- Web app folder destination to stage files into -->
+  <property name="webappfolder.dir" value="${webappDstFolder}"/>
+  
+  <!-- 
+    We are going to build the war folder structure for week11
+      We will copy the files to the appropriate web app locations
+      and then call the war task to generate the war file
+  -->
+    
+  <!-- Default target -->
+  <target name="all" depends="clean, build-webapp"/>
+  
+  <!-- Remove all the content from the webapp folder -->
+  <target name="clean">
+    <echo message="Basedir ${basedir}"/>
+    <delete dir="${webappfolder.dir}" failonerror="false"/>
+  </target>
+  
+  
+  <target name="build-webapp">
+    <!-- debugging aid -->
+    <echo message="Ver 7"/>
+    
+    <!-- build up the folder structure -->
+    <mkdir dir="${webappfolder.dir}"/>
+    <mkdir dir="${webappfolder.dir}/images"/>
+    <mkdir dir="${webappfolder.dir}/WEB-INF"/>
+    <mkdir dir="${webappfolder.dir}/WEB-INF/classes"/>
+    <mkdir dir="${webappfolder.dir}/WEB-INF/classes/week12"/>
+    <mkdir dir="${webappfolder.dir}/WEB-INF/lib"/>    
+
+    <!-- 
+      copy files to the locations
+      public files (html, jsp, images) go to  webappfolder.dir
+      compiled files to to classes
+      lib files go to lib
+    -->
+    <!-- Library files -->
+    <copy todir="${webappfolder.dir}/WEB-INF/lib">
+      <fileset dir="${libraries}">
+        <include name="**/*.jar"/>
+      </fileset>
+    </copy>
+    <copy file="D:/java/eclipse-java-helios-SR2-win32-x86_64/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar" 
+        todir="${webappfolder.dir}/WEB-INF/lib"/>
+    
+    <!-- copy compiled classes -->
+    <copy todir="${webappfolder.dir}/WEB-INF/classes/week12" flatten="false">
+      <fileset dir="${srcFldr}/..//bin/week12">
+        <include name="**/*.class"/>
+      </fileset>
+    </copy>
+    
+    <!-- Web app descriptor file (web.xml) -->
+    
+    <!-- copy public files -->
+    <copy todir="${webappfolder.dir}">
+      <fileset dir="${srcFldr}/week12">
+        <include name="**/*html"/>
+        <include name="**/*jpg"/>
+        <include name="**/*png"/>
+        <include name="**/*jsp"/>
+      </fileset>
+    </copy>   
+    
+    
+    <!-- 
+      now that the files are all in the right place, package the files into a webapp archive (war)
+    -->
+    <war basedir="${webappfolder.dir}" destfile="week13app_lachance.war" needxmlfile="false"/>
+  </target>
+  
+
+</project>

@@ -1,0 +1,201 @@
+package week05;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+
+import org.jdom2.Document;
+import org.jdom2.JDOMException;
+import org.jdom2.input.DOMBuilder;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.XMLOutputter;
+
+import test.AbstractTestCase;
+import week05.core.AtmObject;
+import week05.util.LoginRequest;
+import week05.util.LoginResponse;
+import week05.xml.XmlUtility;
+
+public class TestLogIn extends AbstractTestCase
+{
+	/**
+	 * Default constructor
+	 */
+	public TestLogIn()
+	{
+		super("TestLogRequest");
+
+	}
+
+	@Override
+	protected boolean runTest()
+	{
+		boolean result = true;
+
+		boolean create = testLogRequestCreation();
+		boolean processXml = tesGenerateXmlFromLoginRequest();
+		boolean processXml2ObjectRequest = testGenerateObjectFromXmlLoginRequest();
+		boolean processXml2ObjectResponse = testGenerateObjectFromXmlLoginResponse();
+
+		result = create && processXml && processXml2ObjectRequest && processXml2ObjectResponse;
+		return result;
+	}
+
+	private boolean testGenerateObjectFromXmlLoginResponse()
+	{
+		boolean result = true;
+
+		try
+		{
+			LoginResponse refRequest = new LoginResponse(true, 100100L);
+			
+			String testResponse = "<login-response version=\"1.0\" logged-in=\"true\" session-id=\"100100\" />";
+			java.io.StringReader reader = new StringReader(testResponse);
+
+			org.jdom2.input.SAXBuilder builder = new SAXBuilder();
+			Document dom = builder.build(reader);
+			
+			AtmObject request = XmlUtility.xmlToObject(dom);
+			
+			if( !refRequest.equals(request))
+			{
+				result = false;
+				addResultMessage("LoginRequest objects don't match");
+			}
+		}
+		catch(IOException ex)
+		{
+			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest " + ex.getMessage());
+			result = false;
+		}
+		catch(JDOMException ex)
+		{
+			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest " + ex.getMessage());
+			result = false;
+		}
+		catch(AtmException ex)
+		{
+			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest " + ex.getMessage());
+			result = false;
+		}
+		
+		return result;
+
+	}
+
+	private boolean testGenerateObjectFromXmlLoginRequest()
+	{
+		boolean result = true;
+
+		try
+		{
+			LoginRequest refRequest = new LoginRequest(1234, 100100L);
+			
+			String testRequest = "<login-request version=\"1.0\" pin=\"1234\" account-id=\"100100\" />";
+			java.io.StringReader reader = new StringReader(testRequest);
+
+			org.jdom2.input.SAXBuilder builder = new SAXBuilder();
+			Document dom = builder.build(reader);
+			
+			AtmObject request = XmlUtility.xmlToObject(dom);
+			
+			if( !refRequest.equals(request))
+			{
+				result = false;
+				addResultMessage("LoginRequest objects don't match");
+			}
+		}
+		catch(IOException ex)
+		{
+			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest " + ex.getMessage());
+			result = false;
+		}
+		catch(JDOMException ex)
+		{
+			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest " + ex.getMessage());
+			result = false;
+		}
+		catch(AtmException ex)
+		{
+			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest " + ex.getMessage());
+			result = false;
+		}
+		
+		return result;
+	}
+
+	@SuppressWarnings("unused")
+	private boolean tesGenerateXmlFromLoginRequest()
+	{
+		trace("  tesGenerateXmlFromLoginRequest");
+		boolean result = true;
+
+		try
+		{
+			AtmObject logRequest = new LoginRequest(1234, 100100L);
+
+			if(logRequest == null)
+			{
+				this.addResultMessage("Failed to create LoginRequest");
+				result = false;
+			}
+
+			Document dom = XmlUtility.objectToXml(logRequest);
+
+			String xml = dumpDocument(dom);
+			if(xml.equals(""))
+			{
+				this.addResultMessage("Failed to generate XML output");
+				result = false;
+			}
+
+			addResultMessage("Generated XML \n" + xml);
+		}
+		catch(Exception ex)
+		{
+			this.addResultMessage("Failed to generate XML output "
+					+ ex.getMessage());
+			result = false;
+		}
+
+		return result;
+	}
+
+	private String dumpDocument(Document dom)
+	{
+		XMLOutputter outputter = new XMLOutputter();
+		java.io.StringWriter writer = new StringWriter();
+		try
+		{
+			outputter.output(dom, writer);
+		}
+		catch(IOException ex)
+		{
+			this.addResultMessage("Failed to dump XML output "
+					+ ex.getMessage());
+			ex.printStackTrace();
+		}
+
+		return writer.toString();
+	}
+
+	private boolean testLogRequestCreation()
+	{
+		trace("  testLogRequestCreation");
+		boolean result = true;
+
+		try
+		{
+			@SuppressWarnings("unused")
+			AtmObject logRequest = new LoginRequest(1234, 100100L);
+		}
+		catch(Exception ex)
+		{
+			this.addResultMessage("Failed to create " + ex.getMessage());
+			result = false;
+		}
+
+		return result;
+	}
+
+}

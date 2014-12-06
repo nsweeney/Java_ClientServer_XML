@@ -1,0 +1,66 @@
+<project name="Build" default="all" basedir="..">
+	
+	<description>Builds week09 project web application</description>
+	
+	<!-- Source folder location for week09 -->
+	<property name="srcFldr" value="${srcFolder}"/>
+	
+	<!-- library folder location for week09 -->
+    <property name="libraries" value="C:/Users/scottl/school/ucf/sw2/2014-fall/svn/src/cen4025/lib"/>
+	
+	<!-- Web app folder destination to stage files into -->
+	<property name="webappfolder.dir" value="${webappDstFolder}"/>
+	
+	<!-- 
+		We are going to build the war folder structure for week09
+	    We will copy the files to the appropriate web app locations
+	    and then call the war task to generate the war file
+ 	-->
+    
+	<!-- Default target -->
+	<target name="all" depends="clean, build-webapp"/>
+	
+	<!-- Remove all the content from the webapp folder -->
+	<target name="clean">
+		<echo message="Basedir ${basedir}"/>
+		<delete dir="${webappfolder.dir}" failonerror="false"/>
+	</target>
+	
+	
+	<target name="build-webapp">
+		<!-- debugging aid -->
+		<echo message="Ver 4"/>
+		
+		<!-- build up the folder structure -->
+		<mkdir dir="${webappfolder.dir}"/>
+		<mkdir dir="${webappfolder.dir}/WEB-INF"/>
+		<mkdir dir="${webappfolder.dir}/WEB-INF/classes"/>
+		<mkdir dir="${webappfolder.dir}/WEB-INF/lib"/>
+		
+
+		<!-- 
+			copy files to the locations
+			public files (html, jsp, images) go to  webappfolder.dir
+			compiled files to to classes
+			lib files go to lib
+		-->
+		<!-- Library files -->
+		<copydir src="${libraries}" dest="${webappfolder.dir}/WEB-INF/lib"/>
+		<copy file="D:/tools/eclipse/eclipse-modeling-kepler-R-win32-x86_64/eclipse/plugins/org.junit_4.11.0.v201303080030/junit.jar" 
+			  todir="${webappfolder.dir}/WEB-INF/lib"/>
+		
+		<!-- Web app descriptor file (web.xml) -->
+		<copy file="${srcFldr}/week09/web.xml" todir="${webappfolder.dir}/WEB-INF/"/>
+		
+		<!-- copy public files -->
+		<copy file="${srcFldr}/week09/hello.html" todir="${webappfolder.dir}"/>
+		<copy file="${srcFldr}/week09/HelloWorld.jsp" todir="${webappfolder.dir}"/>
+		
+		<!-- 
+			now that the files are all in the right place, package the files into a webapp archive (war)
+		-->
+		<war basedir="${webappfolder.dir}" destfile="week09app.war" needxmlfile="false"/>
+	</target>
+	
+
+</project>

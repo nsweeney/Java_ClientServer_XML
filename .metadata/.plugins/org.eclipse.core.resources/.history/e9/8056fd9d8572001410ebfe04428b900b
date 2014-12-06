@@ -1,0 +1,104 @@
+<html>
+	<head>
+		<title>Week10 Assignment</title>
+		<style>
+			#header {
+				/* Border is 2px, solid and black. It’s width is 100% (spans the page width), height is 50px. The text inside is centered and the background is lightblue.
+				 * Heading text is bold, size 16pt and italic.*/
+				border: 2px solid black;
+				border-width: 100%;
+				/*line-height: 50px; */
+				background-color: lightblue;
+				/*16pt font = 21px ...21+4+25=required 50px height for header*/
+				padding-top: 4px;
+				padding-bottom: 25px;
+				color: black;
+				font-size: 16pt;
+				font-weight: bold;
+				font-style: italic;
+				text-align: center;
+			}
+
+			#content {
+				width: 100%;
+				/* Center it*/
+				margin: 0px auto 0px auto;
+				border-bottom: solid lightgrey;
+				padding-bottom: .5cm;
+			}
+
+			#contentTable {
+				width: 100%;
+				border: 0;
+				padding: 0;
+			}
+
+			#leftCell {
+				background-color: #79f295;
+				width: 10%;
+			}
+
+			#centerCell {
+				background-color: white;
+				width: 75%;
+				height: 200;
+				text-align: center;
+			}
+
+			#rightCell {
+				background-color: lightgrey;
+				width: 15%;
+				text-align: left;
+			}
+
+			#footer {
+				background-color: white;
+				color: black;
+				text-align: center;
+				padding: .5cm;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--Page Header -->
+		<span>
+			<div id="header">
+				Week 10 Assignment HTML page
+			</div> </span>
+
+		<!--Page Content -->
+		<div id="content">
+			<table id="contentTable">
+				<tr valign="top">
+					<td id="leftCell" >
+					<p>
+						<a href = "\Week10.html">Home</a>
+					</p></td>
+					<td id="centerCell"><img src="http://www.globalsecurity.org/military/systems/aircraft/images/jsf-family-variants.jpg" />
+					<p>
+						The Joint Strike Fighter
+					</p></td>
+					<td id="rightCell">
+					<ul>
+						<li>
+							<a href = "http://www.globalsecurity.org/military/systems/aircraft/f-35.htm">F-35 Joint Strike Fighter</a>
+						</li>
+						<li>
+							<a href = "http://www.globalsecurity.org/military/systems/aircraft/f-35-design.htm">F-35 Design</a>
+						</li>
+						<li>
+							<a href = "http://www.globalsecurity.org/military/systems/aircraft/f-35-commonality.htm">Commonality</a>
+						</li>
+					</ul></td>
+				</tr>
+			</table>
+		</div>
+
+		<!--Page Footer -->
+		<div id="footer">
+			Copyright &copy; 2014 ATM Project
+		</div>
+
+	</body>
+</html>

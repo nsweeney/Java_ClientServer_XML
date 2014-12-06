@@ -1,0 +1,35 @@
+package week06;
+
+import test.AbstractTestCase;
+import week06.io.TcpServer;
+
+public class TestCommunication extends AbstractTestCase
+{
+	/**
+	 * Default constructor
+	 */
+	public TestCommunication()
+	{
+		super("TestCommunication");
+	}
+	
+	@Override
+	protected boolean runTest()
+	{
+		boolean result = true;
+
+		// Tests
+		boolean comms = testComms();
+
+		result = comms;
+		
+		return result;
+	}
+
+	private boolean testComms()
+	{
+		TcpServer server = new TcpServer();
+		
+		return false;
+	}
+}

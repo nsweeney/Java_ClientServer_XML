@@ -1,0 +1,97 @@
+package main_application.io;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+
+import main_application.AtmException;
+
+import org.jdom2.Document;
+
+import week06.core.AtmObject;
+import week06.util.LoginRequest;
+import week06.xml.XmlUtility;
+
+public class ClientConn implements Runnable {
+	/**
+	 * Constructor
+	 * 
+	 * @param client
+	 *            The client socket to communicate over
+	 */
+	public ClientConn(Socket client) {
+		try {
+			/* Obtain an input stream to this client ... */
+			in = new ObjectInputStream(client.getInputStream());
+
+			/* Obtain an output stream to the same client */
+			out = new ObjectOutputStream(client.getOutputStream());
+		} catch (IOException e) {
+			System.err.println(e);
+			return;
+		}
+	}
+
+	@Override
+	public void run() {
+		Document msg;
+		Document response;
+
+		// Create a protocol handler instance
+		// We have separated the communication protocol from the physical
+		// communication channel.
+		LoginServerProtocol protocol = new LoginServerProtocol(this);
+
+		// Added to make server infinitely respond to client request
+		while (true) {
+			LoginRequest loginRequestMain = null;
+			try {
+				System.out.println("Waiting for request from client...");
+				msg = (Document) in.readObject();
+				AtmObject loginRequest = null;
+				try {
+					// convert msg to LoginRequest object
+					loginRequest = XmlUtility.xmlToObject(msg);
+					loginRequestMain = (LoginRequest) loginRequest;
+				} catch (AtmException e1) {
+					log("Could not convert xml to login request.");
+					e1.printStackTrace();
+				}
+				log("Request from client received...");
+
+				response = protocol.process(loginRequestMain);
+				System.out.println("Client request: AccountID = "
+						+ loginRequestMain.getAccountId() + " PIN = "
+						+ loginRequestMain.getPin());
+				System.out.println("SERVER: " + response);
+
+				try {
+					// Send response back
+					out.writeObject(response);
+
+				} catch (IOException ioError) {
+					ioError.printStackTrace();
+				}
+
+			} catch (ClassNotFoundException classError) {
+				classError.printStackTrace();
+			} catch (IOException ioError) {
+				ioError.printStackTrace();
+			}
+		}
+	}
+
+	private void log(String msg) {
+		System.out.println(msg);
+	}
+
+	/** The client socket reference */
+	public Socket client;
+
+	/** Receives input from the client */
+	public ObjectInputStream in;
+
+	/** Sends data to the client */
+	public ObjectOutputStream out;
+}

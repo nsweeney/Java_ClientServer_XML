@@ -1,0 +1,323 @@
+package week02;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import test.AbstractTestCase;
+
+public class TestSystemIdGenerator extends AbstractTestCase
+{
+	/** Constructor */
+	public TestSystemIdGenerator()
+	{
+		super("TestSystemIdGenerator");
+
+		m_generator = new SystemIdGenerator();
+	}
+
+	/**
+	 * Executes multiple threads to test ID generator thread safety. Measures
+	 * execution time
+	 */
+	@Override
+	protected boolean runTest()
+	{
+		boolean result = false;
+		try
+		{
+
+			trace("testIdGenerator");
+			boolean test1 = testIdGenerator();
+
+			trace("testThreadSafety");
+			boolean test2 = testThreadSafety();
+			
+			trace("testGenerateSet");
+			boolean test3 = testGenerateSet();
+			// boolean test3 = testPerformance();
+
+			result = test1 && test2 && test3;
+		}
+		catch(Exception ex)
+		{
+			trace("TestSystemIdGenerator: Unexpected error in runTest: " + ex.getMessage());
+		}
+		return result;
+	}
+
+	private boolean testGenerateSet()
+	{
+		long NANO_FACTOR = 1000000000L;
+		long start = 0;
+		long end = 0;
+		
+		boolean result = false;
+		String msg = "";
+		try
+		{
+			start = System.nanoTime();
+			List<Long> idSet = m_generator.generateIdSet(1000);
+			end = System.nanoTime();
+			long elapsed = end - start;
+			double sec = elapsed/NANO_FACTOR;
+			
+			boolean areUniqueIDs = evaluateIds(idSet);
+			if( ! areUniqueIDs )
+			{
+				msg = String.format("testGenerateSet - IDs are not unique");
+				this.addResultMessage(msg);
+			}
+			
+			result = areUniqueIDs;
+			msg = String.format("testGenerateSet - elapsed time %d", elapsed);
+			this.addResultMessage(msg);
+			
+			if( sec > 1 )
+			{
+				msg = String.format("testGenerateSet - took too long to create IDs %d seconds", sec);
+				this.addResultMessage(msg);
+				result = false;
+			}			
+		}
+		catch(Exception ex)
+		{
+			trace("Unexpected error in testGenerateSet: " + ex.getMessage());
+			result = false;
+		}
+		return result;
+	}
+
+	private boolean testThreadSafety()
+	{
+		boolean result = false;
+		SystemIdGeneratorThreadTest one = new SystemIdGeneratorThreadTest(
+				m_generator, 10, 100);
+		SystemIdGeneratorThreadTest two = new SystemIdGeneratorThreadTest(
+				m_generator, 20, 100);
+		SystemIdGeneratorThreadTest three = new SystemIdGeneratorThreadTest(
+				m_generator, 30, 100);
+
+		try
+		{
+			one.start();
+			two.start();
+			three.start();
+
+			int loopCount = 0;
+			while(one.isAlive() || two.isAlive() || three.isAlive())
+			{
+				if( loopCount++ % 1000 == 0 )
+				{
+					//trace("still waiting...");
+				}
+			}
+
+			int oneCount = one.getNumberOfIdsCreated();
+			long oneElapsed = one.getElapsedTime();
+
+			int twoCount = two.getNumberOfIdsCreated();
+			long twoElapsed = two.getElapsedTime();
+
+			int threeCount = three.getNumberOfIdsCreated();
+			long threeElapsed = three.getElapsedTime();
+			
+			String msg = String.format("testThreadSafety - Thread 1 results: ID Count - %d,  elapsed time: %d", oneCount, oneElapsed);
+			addResultMessage(msg);
+			msg = String.format("testThreadSafety - Thread 2 results: ID Count - %d,  elapsed time: %d", twoCount, twoElapsed);
+			addResultMessage(msg);
+			msg = String.format("testThreadSafety - Thread 3 results: ID Count - %d,  elapsed time: %d", threeCount, threeElapsed);
+			addResultMessage(msg);
+			
+			long elapsed = oneElapsed + twoElapsed + threeElapsed;
+			msg = String.format("testThreadSafety - Elapsed time: %d",
+					elapsed);
+			this.addResultMessage(msg);
+
+			// evaluate IDs
+			boolean areUniqueIDs = evaluateIds(m_generator.getIdList());
+			if( ! areUniqueIDs )
+			{
+				msg = String.format("testThreadSafety - IDs are not unique");
+				this.addResultMessage(msg);
+			}
+			
+			result = areUniqueIDs;
+		}
+		catch(Exception ex)
+		{
+			trace("Unexpected error in testThreadSafety: " + ex.getMessage());
+			result = false;
+		}
+
+		return result;
+	}
+
+	private boolean evaluateIds(List<Long> idList)
+	{
+		boolean result = false;
+		boolean noDups = true;
+		
+		String dupFmt = "  Found duplicate ID %d";
+		String msg = String.format("Evaluating threaded IDs. Number: %d",
+				idList.size());
+		this.addResultMessage(msg);
+		Set<Long> testSet = new HashSet<Long>();
+		for(Long yourInt : idList)
+		{
+			if(!testSet.add(yourInt))
+			{
+				msg = String.format(dupFmt, yourInt);
+				addResultMessage(msg);
+				noDups = false;
+			}
+		}
+
+		int testSize = testSet.size();
+		int listSize = idList.size();
+		
+		if( testSize == listSize && noDups)
+		{
+			result = true;
+		}
+		
+		return result;
+	}
+
+	/**
+	 * Tests creation of three ids Verifies unique Records creation elapsed time
+	 * Verifies the internal list is growing.
+	 * 
+	 * @return
+	 */
+	private boolean testIdGenerator()
+	{
+		String msg = "";
+		m_generator = new SystemIdGenerator();
+
+		// test 1
+		long start = System.nanoTime();
+		long id1 = m_generator.getNextId();
+		long end = System.nanoTime();
+		long elapsed = end - start; // nano-seconds
+		msg = String.format("testIdGenerator - Elapsed time, one id: %d",
+				elapsed);
+		this.addResultMessage(msg);
+
+		// test 2
+		start = System.nanoTime();
+		long id2 = m_generator.getNextId();
+		end = System.nanoTime();
+		elapsed = end - start; // nano-seconds
+		msg = String.format("testIdGenerator - Elapsed time, one id: %d",
+				elapsed);
+		this.addResultMessage(msg);
+
+		// verify they are unique
+		boolean isUnqiue = id1 != id2;
+		if(!isUnqiue)
+		{
+			String errMsg = String.format(
+					"testIdGenerator - Ids are not unique: %d, %d", id1, id2);
+			this.addResultMessage(errMsg);
+		}
+
+		// verify generator is keeping track
+		long size = m_generator.getIdList().size();
+		boolean isGrowing = size > 0;
+		if(!isGrowing)
+		{
+			String errMsg = String.format(
+					"testIdGenerator - Internal id list not growing: %d", size);
+			this.addResultMessage(errMsg);
+		}
+
+		// test 3
+		start = System.nanoTime();
+		long id3 = m_generator.getNextId();
+		end = System.nanoTime();
+		elapsed = end - start; // nano-seconds
+
+		msg = String.format("testIdGenerator - Elapsed time, one id: %d",
+				elapsed);
+		this.addResultMessage(msg);
+
+		boolean isAllUnqiue = id1 != id2 && id2 != id3;
+		if(!isAllUnqiue)
+		{
+			String errMsg = String.format(
+					"testIdGenerator - Ids are not unique: %d, %d, %d", id1,
+					id2, id3);
+			this.addResultMessage(errMsg);
+		}
+
+		return isUnqiue && isGrowing && isAllUnqiue;
+	}
+
+	// Used by all the tests
+	SystemIdGenerator m_generator;
+}
+
+class SystemIdGeneratorThreadTest extends Thread
+{
+	/**
+	 * Gets the generator reference to run in this thread context
+	 * 
+	 * @param generator
+	 *            SystemIdGenerator reference
+	 * @param delay
+	 *            Delay between nextId requests in ms;
+	 * @param runs
+	 *            Number of times to loop
+	 */
+	SystemIdGeneratorThreadTest(SystemIdGenerator generator, int delay, int runs)
+	{
+		m_generator = generator;
+		m_delay = delay;
+		m_runs = runs;
+		m_elapsedTime = 0;
+		m_idCreatedCount = 0;
+	}
+
+	/** Returns the elapsed time in nanoseconds */
+	public long getElapsedTime()
+	{
+		return m_elapsedTime;
+	}
+	
+	public int getNumberOfIdsCreated()
+	{
+		return m_idCreatedCount;
+	}
+
+	@Override
+	public void run()
+	{
+		long start = System.nanoTime();
+		long end = System.nanoTime();
+		try
+		{
+			for(int i = 0; i < m_runs; i++)
+			{
+				Thread.sleep(m_delay);
+				start = System.nanoTime();
+				Long id = m_generator.getNextId();
+				end = System.nanoTime();
+				m_elapsedTime += end - start;
+				m_idCreatedCount++;
+			}
+		}
+		catch(Exception ex)
+		{
+			String errMsg = String.format(
+					"Error in SystemIdGeneratorThreadTest %s", ex.getMessage());
+			System.out.println(errMsg);
+		}
+	}
+
+	private SystemIdGenerator m_generator;
+	private int m_delay;
+	private int m_runs;
+	private long m_elapsedTime;
+	private int m_idCreatedCount;
+}

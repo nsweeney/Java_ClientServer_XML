@@ -1,0 +1,74 @@
+package week05.util;
+
+import week05.core.AtmObject;
+
+/**
+ * Encapsulates the login request information
+ * @author scottl
+ *
+ */
+public class LoginRequest extends AtmObject
+{
+	/**
+	 * Constructor
+	 * @param pin User provided pin
+	 * @param accountId - account id (checking/savings etc)
+	 */
+	public LoginRequest(int pin, long accountId)
+	{
+		m_pin = pin;
+		m_accountId = accountId;
+	}
+
+	/**
+	 * @return the m_pin
+	 */
+	public int getPin()
+	{
+		return m_pin;
+	}
+	
+	/**
+	 * @param m_pin the m_pin to set
+	 */
+	public void setPin(int m_pin)
+	{
+		this.m_pin = m_pin;
+	}
+
+	/**
+	 * @return the m_accountId
+	 */
+	public long getAccountId()
+	{
+		return m_accountId;
+	}
+
+	/**
+	 * @param m_accountId the m_accountId to set
+	 */
+	public void setAccountId(long m_accountId)
+	{
+		this.m_accountId = m_accountId;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		boolean result = false;
+		if( obj instanceof LoginRequest)
+		{
+			LoginRequest rhs = (LoginRequest)obj;
+			if( this.getPin() == rhs.getPin() &&
+				this.getAccountId() == rhs.getAccountId())
+			{
+				result = true;
+			}
+		}
+		
+		return result;
+	}
+	
+	private int m_pin;
+	private long m_accountId; 
+}

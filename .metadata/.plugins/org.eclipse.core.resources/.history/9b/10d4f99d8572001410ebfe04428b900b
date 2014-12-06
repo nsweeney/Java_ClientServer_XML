@@ -1,0 +1,8 @@
+From "C:\Users\nick\Documents\localEcWksp\test_week09\cen4025\src\week11"
+@ cmd: build_webapp.bat   //this build my app and put it into "C:\Users\nick\Documents\localEcWksp\webapp\week11app"
+@ cmd: deploy.bat 		  //this sent my .war file to apache webapps folder
+
+---make sure you launch the apache server with the bat file in the apache folder
+--then you can see the deployed stuff @ http://localhost:8080/week11app_nSweeney/hello.html
+--or @ http://localhost:8080/week11app_nSweeney/HelloWorld2.jsp
+--or @ http://localhost:8080/week11app_nSweeney/HelloServlet
