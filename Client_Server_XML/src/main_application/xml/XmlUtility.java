@@ -1,20 +1,16 @@
 package main_application.xml;
 
 import main_application.AtmException;
+import main_application.core.AtmObject;
+import main_application.util.LoginRequest;
+import main_application.util.LoginResponse;
 
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 
-import week06.core.AtmObject;
-import week06.util.LoginRequest;
-import week06.util.LoginResponse;
-
 /**
  * Provides a set of utility methods to manage XML
- * 
- * @author scottl
- * 
  */
 public class XmlUtility
 {
@@ -33,7 +29,7 @@ public class XmlUtility
 		{
 			dom = generateLoginRequestXml((LoginRequest)obj);
 		}
-		else if( obj instanceof LoginResponse)
+		else if(obj instanceof LoginResponse)
 		{
 			dom = generateLoginResponseXml((LoginResponse)obj);
 		}
@@ -53,8 +49,7 @@ public class XmlUtility
 	 *            Document reference
 	 * @return Appropriate ATM domain object
 	 */
-	public static AtmObject xmlToObject(Document dom)
-		throws AtmException
+	public static AtmObject xmlToObject(Document dom) throws AtmException
 	{
 		AtmObject atmObject = null;
 
@@ -88,14 +83,15 @@ public class XmlUtility
 			throws NumberFormatException
 	{
 		String loggedInString = root.getAttributeValue("logged-in");
-		//String sessionIdString = root.getAttributeValue("session-id");  //**Changed HERE
-		String sessionIdString = root.getAttributeValue("account-id"); 
+		// String sessionIdString = root.getAttributeValue("session-id");
+		// //**Changed HERE
+		String sessionIdString = root.getAttributeValue("account-id");
 		boolean loggedIn = Boolean.parseBoolean(loggedInString);
-		int accountId = Integer.parseInt(sessionIdString);  
-		//long accountId = Long.parseLong(sessionIdString);
+		int accountId = Integer.parseInt(sessionIdString);
+		// long accountId = Long.parseLong(sessionIdString);
 		return new LoginResponse(loggedIn, accountId);
 	}
-	
+
 	private static AtmObject getLoginObject(Element root)
 			throws NumberFormatException
 	{
@@ -126,8 +122,6 @@ public class XmlUtility
 		return dom;
 
 	}
-	
-
 
 	private static Document generateLoginResponseXml(LoginResponse response)
 	{

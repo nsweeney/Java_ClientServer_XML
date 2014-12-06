@@ -8,17 +8,18 @@ import java.net.Socket;
  * This is the server implementation. It listens for a client request, the
  * creates a new ClientConn to setup an async connection and then returns to
  * listen for the next connection attempt.
- * 
- * @author scottl
  *
  */
-public class TcpServer {
+public class TcpServer
+{
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException
+	{
 		new TcpServer().start();
 	}
 
-	public void start() {
+	public void start()
+	{
 		initializeServer();
 
 		startListening();
@@ -28,12 +29,16 @@ public class TcpServer {
 	 * Initialize the server. If server can't be initialized (socket error) then
 	 * the app exits.
 	 */
-	private void initializeServer() {
+	private void initializeServer()
+	{
 		// Utilize error handling
-		try {
+		try
+		{
 			server = new ServerSocket(m_port); /* start listening on the port */
 			log("Initialized server on port: " + Integer.toString(m_port));
-		} catch (IOException e) {
+		}
+		catch(IOException e)
+		{
 			System.err.println("Could not listen on port: " + m_port);
 			System.err.println(e);
 			System.exit(1);
@@ -50,12 +55,17 @@ public class TcpServer {
 	 * client.
 	 * 
 	 */
-	private void startListening() {
+	private void startListening()
+	{
 		Socket client = null;
-		while (true) {
-			try {
+		while(true)
+		{
+			try
+			{
 				client = server.accept();
-			} catch (IOException e) {
+			}
+			catch(IOException e)
+			{
 				System.err.println("Accept failed.");
 				System.err.println(e);
 				System.exit(1);
@@ -67,7 +77,8 @@ public class TcpServer {
 		}
 	}
 
-	private void log(String msg) {
+	private void log(String msg)
+	{
 		System.out.println(msg);
 	}
 

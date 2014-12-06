@@ -1,20 +1,20 @@
 package main_application.util;
 
-import java.io.Serializable;
-
-import week06.core.AtmObject;
+import main_application.core.AtmObject;
 
 /**
  * Encapsulates the login request information
- * @author scottl
  *
  */
 public class LoginRequest extends AtmObject
 {
 	/**
 	 * Constructor
-	 * @param pin User provided pin
-	 * @param accountId - account id (checking/savings etc)
+	 * 
+	 * @param pin
+	 *            User provided pin
+	 * @param accountId
+	 *            - account id (checking/savings etc)
 	 */
 	public LoginRequest(int pin, long accountId)
 	{
@@ -22,7 +22,8 @@ public class LoginRequest extends AtmObject
 		m_accountId = accountId;
 	}
 
-	public LoginRequest() {
+	public LoginRequest()
+	{
 		// TODO Auto-generated constructor stub
 	}
 
@@ -33,9 +34,10 @@ public class LoginRequest extends AtmObject
 	{
 		return m_pin;
 	}
-	
+
 	/**
-	 * @param m_pin the m_pin to set
+	 * @param m_pin
+	 *            the m_pin to set
 	 */
 	public void setPin(int m_pin)
 	{
@@ -51,7 +53,8 @@ public class LoginRequest extends AtmObject
 	}
 
 	/**
-	 * @param m_accountId the m_accountId to set
+	 * @param m_accountId
+	 *            the m_accountId to set
 	 */
 	public void setAccountId(long m_accountId)
 	{
@@ -62,19 +65,19 @@ public class LoginRequest extends AtmObject
 	public boolean equals(Object obj)
 	{
 		boolean result = false;
-		if( obj instanceof LoginRequest)
+		if(obj instanceof LoginRequest)
 		{
 			LoginRequest rhs = (LoginRequest)obj;
-			if( this.getPin() == rhs.getPin() &&
-				this.getAccountId() == rhs.getAccountId())
+			if(this.getPin() == rhs.getPin()
+					&& this.getAccountId() == rhs.getAccountId())
 			{
 				result = true;
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	private int m_pin;
-	private long m_accountId; 
+	private long m_accountId;
 }

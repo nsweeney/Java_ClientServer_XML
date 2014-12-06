@@ -4,8 +4,6 @@ import main_application.AtmException;
 
 /**
  * Data Access Exception class
- * @author scottl
- *
  */
 public class AtmDataException extends AtmException
 {
@@ -14,11 +12,12 @@ public class AtmDataException extends AtmException
 	 */
 	public AtmDataException()
 	{
-		
+
 	}
 
 	/**
 	 * Extends base class exception
+	 * 
 	 * @param arg0
 	 */
 	public AtmDataException(String arg0)
@@ -28,6 +27,7 @@ public class AtmDataException extends AtmException
 
 	/**
 	 * Extends base class exception
+	 * 
 	 * @param arg0
 	 */
 	public AtmDataException(Throwable arg0)
@@ -37,6 +37,7 @@ public class AtmDataException extends AtmException
 
 	/**
 	 * Extends base class exception
+	 * 
 	 * @param arg0
 	 */
 	public AtmDataException(String arg0, Throwable arg1)
@@ -46,6 +47,7 @@ public class AtmDataException extends AtmException
 
 	/**
 	 * Extends base class exception
+	 * 
 	 * @param arg0
 	 */
 	public AtmDataException(String arg0, Throwable arg1, boolean arg2,

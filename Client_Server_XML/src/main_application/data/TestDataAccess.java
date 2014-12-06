@@ -1,15 +1,16 @@
 package main_application.data;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import main_application.app.Account;
+import main_application.app.User;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import week06.app.User;
-import week06.app.Account;
 
 public class TestDataAccess
 {

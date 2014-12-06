@@ -4,8 +4,8 @@ import java.util.Hashtable;
 
 public class ChatServerProtocol
 {
-	//public String nick;
-	//public ClientConn conn;
+	// public String nick;
+	// public ClientConn conn;
 
 	public ChatServerProtocol(ClientConn c)
 	{
@@ -13,27 +13,25 @@ public class ChatServerProtocol
 		m_conn = c;
 	}
 
-	
 	public String getNickname()
 	{
 		return m_nick;
 	}
-	
+
 	public void setNickname(String nick)
 	{
 		m_nick = nick;
 	}
-	
+
 	public ClientConn getClientConnection()
 	{
 		return m_conn;
 	}
-	
+
 	public void setClientConnection(ClientConn conn)
 	{
 		m_conn = conn;
 	}
-
 
 	private void log(String msg)
 	{
@@ -44,7 +42,7 @@ public class ChatServerProtocol
 	{
 		return !(getNickname() == null);
 	}
-	
+
 	/**
 	 * Implements the authentication protocol. This consists of checking that
 	 * the message starts with the NICK command and that the nick following it
@@ -60,7 +58,7 @@ public class ChatServerProtocol
 			if(add_nick(tryNick, m_conn))
 			{
 				log("Nick " + tryNick + " joined.");
-				//this.data.nick = tryNick;
+				// this.data.nick = tryNick;
 				setNickname(tryNick);
 				return msg_OK;
 			}
@@ -74,7 +72,7 @@ public class ChatServerProtocol
 			return msg_SPECIFY_NICK;
 		}
 	}
-	
+
 	/**
 	 * Send a message to another user.
 	 * 
@@ -89,7 +87,7 @@ public class ChatServerProtocol
 			ClientConn c = nicks.get(recipient);
 			String response = getNickname() + ": " + msg;
 			log("Server sending: " + response);
-			//c.sendMsg(response);
+			// c.sendMsg(response);
 			return true;
 		}
 		else
@@ -135,7 +133,7 @@ public class ChatServerProtocol
 			return msg_INVALID;
 		}
 	}
-	
+
 	/**
 	 * Adds a nick to the hash table returns false if the nick is already in the
 	 * table, true otherwise
@@ -152,10 +150,10 @@ public class ChatServerProtocol
 			return true;
 		}
 	}
-	
+
 	private String m_nick;
 	private ClientConn m_conn;
-	//private ChatServerProtocol data = new ChatServerProtocol();
+	// private ChatServerProtocol data = new ChatServerProtocol();
 	/* a hash table from user nicks to the corresponding connections */
 	private static Hashtable<String, ClientConn> nicks = new Hashtable<String, ClientConn>();
 

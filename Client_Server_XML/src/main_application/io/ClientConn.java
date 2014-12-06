@@ -6,35 +6,40 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import main_application.AtmException;
+import main_application.core.AtmObject;
+import main_application.util.LoginRequest;
+import main_application.xml.XmlUtility;
 
 import org.jdom2.Document;
 
-import week06.core.AtmObject;
-import week06.util.LoginRequest;
-import week06.xml.XmlUtility;
-
-public class ClientConn implements Runnable {
+public class ClientConn implements Runnable
+{
 	/**
 	 * Constructor
 	 * 
 	 * @param client
 	 *            The client socket to communicate over
 	 */
-	public ClientConn(Socket client) {
-		try {
+	public ClientConn(Socket client)
+	{
+		try
+		{
 			/* Obtain an input stream to this client ... */
 			in = new ObjectInputStream(client.getInputStream());
 
 			/* Obtain an output stream to the same client */
 			out = new ObjectOutputStream(client.getOutputStream());
-		} catch (IOException e) {
+		}
+		catch(IOException e)
+		{
 			System.err.println(e);
 			return;
 		}
 	}
 
 	@Override
-	public void run() {
+	public void run()
+	{
 		Document msg;
 		Document response;
 
@@ -44,17 +49,22 @@ public class ClientConn implements Runnable {
 		LoginServerProtocol protocol = new LoginServerProtocol(this);
 
 		// Added to make server infinitely respond to client request
-		while (true) {
+		while(true)
+		{
 			LoginRequest loginRequestMain = null;
-			try {
+			try
+			{
 				System.out.println("Waiting for request from client...");
-				msg = (Document) in.readObject();
+				msg = (Document)in.readObject();
 				AtmObject loginRequest = null;
-				try {
+				try
+				{
 					// convert msg to LoginRequest object
 					loginRequest = XmlUtility.xmlToObject(msg);
-					loginRequestMain = (LoginRequest) loginRequest;
-				} catch (AtmException e1) {
+					loginRequestMain = (LoginRequest)loginRequest;
+				}
+				catch(AtmException e1)
+				{
 					log("Could not convert xml to login request.");
 					e1.printStackTrace();
 				}
@@ -66,23 +76,31 @@ public class ClientConn implements Runnable {
 						+ loginRequestMain.getPin());
 				System.out.println("SERVER: " + response);
 
-				try {
+				try
+				{
 					// Send response back
 					out.writeObject(response);
 
-				} catch (IOException ioError) {
+				}
+				catch(IOException ioError)
+				{
 					ioError.printStackTrace();
 				}
 
-			} catch (ClassNotFoundException classError) {
+			}
+			catch(ClassNotFoundException classError)
+			{
 				classError.printStackTrace();
-			} catch (IOException ioError) {
+			}
+			catch(IOException ioError)
+			{
 				ioError.printStackTrace();
 			}
 		}
 	}
 
-	private void log(String msg) {
+	private void log(String msg)
+	{
 		System.out.println(msg);
 	}
 

@@ -1,21 +1,25 @@
 package main_application;
 
-import test.AbstractTestCase;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import week06.util.AtmLogger;
+
+import main_application.util.AtmLogger;
+import test.AbstractTestCase;
 
 /**
  * Tests the logging subsystem
- * @author scottl
  *
  */
 public class TestLogging extends AbstractTestCase
 {
 	// use the classname for the logger, this way you can refactor
-	private final static Logger LOGGER = Logger.getLogger(Logger.class.getName());
-	private final static Logger testLogger = Logger.getLogger(TestLogging.class.getName());
-	//private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private final static Logger LOGGER = Logger.getLogger(Logger.class
+			.getName());
+	private final static Logger testLogger = Logger.getLogger(TestLogging.class
+			.getName());
+
+	// private final static Logger LOGGER =
+	// Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	/**
 	 * Protected constructor
 	 */
@@ -37,8 +41,8 @@ public class TestLogging extends AbstractTestCase
 		try
 		{
 
-			//AtmLogger.setup();
-			AtmLogger.addAtmHandler(LOGGER);	// Logger class
+			// AtmLogger.setup();
+			AtmLogger.addAtmHandler(LOGGER); // Logger class
 			AtmLogger.addAtmHandler(testLogger);// This class
 
 			// set the LogLevel to Severe, only severe Messages will be written
@@ -82,7 +86,7 @@ public class TestLogging extends AbstractTestCase
 			this.addResultMessage(exceptionName + " " + message);
 			ex.getStackTrace();
 		}
-		
+
 		return result;
 	}
 }

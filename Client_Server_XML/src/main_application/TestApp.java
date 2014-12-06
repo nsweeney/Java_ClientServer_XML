@@ -1,12 +1,11 @@
 package main_application;
 
-
 import java.util.List;
 
+import main_application.app.User;
+import main_application.app.UserManager;
+import main_application.util.AtmLogger;
 import test.AbstractTestCase;
-import week06.app.User;
-import week06.app.UserManager;
-import week06.util.AtmLogger;
 
 public class TestApp extends AbstractTestCase
 {
@@ -29,11 +28,11 @@ public class TestApp extends AbstractTestCase
 			AtmLogger.setup();
 			trace("testUserClassEquals");
 			boolean classTest = false;
-			classTest = testUserClassEquals();	
+			classTest = testUserClassEquals();
 			trace("testUserManager");
 			boolean userMgrTest = false;
 			userMgrTest = testUserManager();
-			
+
 			result = classTest && userMgrTest;
 		}
 		catch(Exception ex)
@@ -42,17 +41,17 @@ public class TestApp extends AbstractTestCase
 		}
 		return result;
 	}
-	
+
 	private boolean testUserManager()
 	{
 		boolean success = true;
-		
+
 		UserManager mgr = new UserManager();
-		
+
 		trace(" Testing invalid user");
 		// Invalid user
 		User user = new User();
-		
+
 		try
 		{
 			mgr.addUser(user);
@@ -61,31 +60,32 @@ public class TestApp extends AbstractTestCase
 		}
 		catch(AtmException ex)
 		{
-			// success			
+			// success
 		}
-		
+
 		trace(" Testing valid user");
-		long newId = week06.app.SystemIdGenerator.getInstance().getNextId();
+		long newId = main_application.app.SystemIdGenerator.getInstance()
+				.getNextId();
 		user.setUserId(newId);
-		
+
 		try
 		{
-			mgr.addUser(user);	
+			mgr.addUser(user);
 			List<User> list = mgr.getUserList();
-			if( list.size() == 0 )
+			if(list.size() == 0)
 			{
 				success = false;
 				addResultMessage("Failed to add user");
 			}
-			
+
 		}
 		catch(AtmException ex)
 		{
-			// failed		
-			success = false;	
+			// failed
+			success = false;
 			addResultMessage("Failed to add valid User reference");
 		}
-		
+
 		return success;
 	}
 
@@ -93,43 +93,44 @@ public class TestApp extends AbstractTestCase
 	{
 		trace("Testing User class and equals");
 		boolean equalTest = true;
-		
+
 		// simple user creation
-		User user = new User();						
+		User user = new User();
 		trace(user.toString());
-		
-		User user2 = new User();						
+
+		User user2 = new User();
 		trace(user2.toString());
-		
+
 		// expect to be same
-		if( !user.equals(user2))
+		if(!user.equals(user2))
 		{
 			equalTest = false;
 			this.addResultMessage("User1 not equal to User2");
 			this.addResultMessage("User 1: " + user.toString());
 			this.addResultMessage("User 2: " + user2.toString());
 		}
-		
+
 		user2.setFirstName("Jim");
 		user2.setLastName("Bo");
-		user2.setUserId(1);					
+		user2.setUserId(1);
 		trace(user2.toString());
 
 		// expect to be different
-		if( user.equals(user2))
+		if(user.equals(user2))
 		{
 			equalTest = false;
 		}
-		
-		User user3 = new User(user2.getUserId(), user2.getFirstName(), user2.getLastName());		
+
+		User user3 = new User(user2.getUserId(), user2.getFirstName(),
+				user2.getLastName());
 		trace(user3.toString());
-		
+
 		// expect to be same
-		if( !user3.equals(user2))
+		if(!user3.equals(user2))
 		{
 			equalTest = false;
 		}
-		
+
 		if(equalTest)
 		{
 			trace("User.equals test passed");
@@ -138,8 +139,7 @@ public class TestApp extends AbstractTestCase
 		{
 			trace("User.equals test failed");
 		}
-		
+
 		return equalTest;
 	}
 }
-	

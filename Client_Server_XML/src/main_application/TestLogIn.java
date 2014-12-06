@@ -4,17 +4,17 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import main_application.core.AtmObject;
+import main_application.util.LoginRequest;
+import main_application.util.LoginResponse;
+import main_application.xml.XmlUtility;
+
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
-import org.jdom2.input.DOMBuilder;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
 
 import test.AbstractTestCase;
-import week06.core.AtmObject;
-import week06.util.LoginRequest;
-import week06.util.LoginResponse;
-import week06.xml.XmlUtility;
 
 public class TestLogIn extends AbstractTestCase
 {
@@ -37,7 +37,8 @@ public class TestLogIn extends AbstractTestCase
 		boolean processXml2ObjectRequest = testGenerateObjectFromXmlLoginRequest();
 		boolean processXml2ObjectResponse = testGenerateObjectFromXmlLoginResponse();
 
-		result = create && processXml && processXml2ObjectRequest && processXml2ObjectResponse;
+		result = create && processXml && processXml2ObjectRequest
+				&& processXml2ObjectResponse;
 		return result;
 	}
 
@@ -48,17 +49,18 @@ public class TestLogIn extends AbstractTestCase
 		try
 		{
 			LoginResponse refRequest = new LoginResponse(true, 100100L);
-			
-			//String testResponse = "<login-response version=\"1.0\" logged-in=\"true\" session-id=\"100100\" />";
+
+			// String testResponse =
+			// "<login-response version=\"1.0\" logged-in=\"true\" session-id=\"100100\" />";
 			String testResponse = "<login-response version=\"1.0\" logged-in=\"true\" account-id=\"100100\" />";
 			java.io.StringReader reader = new StringReader(testResponse);
 
 			org.jdom2.input.SAXBuilder builder = new SAXBuilder();
 			Document dom = builder.build(reader);
-			
+
 			AtmObject request = XmlUtility.xmlToObject(dom);
-			
-			if( !refRequest.equals(request))
+
+			if(!refRequest.equals(request))
 			{
 				result = false;
 				addResultMessage("LoginRequest objects don't match");
@@ -66,20 +68,23 @@ public class TestLogIn extends AbstractTestCase
 		}
 		catch(IOException ex)
 		{
-			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest " + ex.getMessage());
+			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest "
+					+ ex.getMessage());
 			result = false;
 		}
 		catch(JDOMException ex)
 		{
-			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest " + ex.getMessage());
+			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest "
+					+ ex.getMessage());
 			result = false;
 		}
 		catch(AtmException ex)
 		{
-			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest " + ex.getMessage());
+			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest "
+					+ ex.getMessage());
 			result = false;
 		}
-		
+
 		return result;
 
 	}
@@ -91,16 +96,16 @@ public class TestLogIn extends AbstractTestCase
 		try
 		{
 			LoginRequest refRequest = new LoginRequest(1234, 100100L);
-			
+
 			String testRequest = "<login-request version=\"1.0\" pin=\"1234\" account-id=\"100100\" />";
 			java.io.StringReader reader = new StringReader(testRequest);
 
 			org.jdom2.input.SAXBuilder builder = new SAXBuilder();
 			Document dom = builder.build(reader);
-			
+
 			AtmObject request = XmlUtility.xmlToObject(dom);
-			
-			if( !refRequest.equals(request))
+
+			if(!refRequest.equals(request))
 			{
 				result = false;
 				addResultMessage("LoginRequest objects don't match");
@@ -108,20 +113,23 @@ public class TestLogIn extends AbstractTestCase
 		}
 		catch(IOException ex)
 		{
-			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest " + ex.getMessage());
+			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest "
+					+ ex.getMessage());
 			result = false;
 		}
 		catch(JDOMException ex)
 		{
-			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest " + ex.getMessage());
+			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest "
+					+ ex.getMessage());
 			result = false;
 		}
 		catch(AtmException ex)
 		{
-			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest " + ex.getMessage());
+			this.addResultMessage(" Failed: testGenerateObjectFromXmlLoginRequest "
+					+ ex.getMessage());
 			result = false;
 		}
-		
+
 		return result;
 	}
 

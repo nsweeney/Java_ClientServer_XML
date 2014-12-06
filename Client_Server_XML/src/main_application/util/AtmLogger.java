@@ -12,13 +12,12 @@ import java.util.logging.SimpleFormatter;
 /**
  * The ATM logger for the ATM project
  * 
- * @author scottl
- * 
  */
 public class AtmLogger
 {
 	/**
 	 * Initializes the logging system for our purposes
+	 * 
 	 * @throws IOException
 	 */
 	static public void setup() throws IOException
@@ -31,10 +30,10 @@ public class AtmLogger
 		Handler[] handlers = rootLogger.getHandlers();
 		if(handlers.length > 0)
 		{
-		     if(handlers[0] instanceof ConsoleHandler)
-		     {
-		           logger.removeHandler(handlers[0]);
-		     }
+			if(handlers[0] instanceof ConsoleHandler)
+			{
+				logger.removeHandler(handlers[0]);
+			}
 
 		}
 
@@ -53,7 +52,7 @@ public class AtmLogger
 
 		logger.addHandler(fileHTML);
 	}
-	
+
 	static public void addAtmHandler(Logger logger)
 	{
 		logger.addHandler(fileTxt);

@@ -5,34 +5,26 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Calendar;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Logger;
 
-import week06.data.AtmDataException;
-import week06.data.DataAccess;
-import week06.app.Account;
-import week06.app.User;
-
-import java.sql.SQLException;
+import main_application.app.Account;
+import main_application.app.User;
 
 /**
  * Provides the interface to the datastore For this implementation that is a
  * MySql database
- * 
- * @author scottl
- * @author Team 4
- * @author Demetrius Ford
- * @author Susie McQuaig
- * @author Michael Pierre
- * @author Nick Sweeney
  */
-public class DataAccess {
+public class DataAccess
+{
 	/**
 	 * Default Constructor
 	 */
-	public DataAccess() {
+	public DataAccess()
+	{
 
 		logger.info("DataAccess initialized");
 	}
@@ -45,12 +37,14 @@ public class DataAccess {
 	 * @throws AtmDataException
 	 *             if there is a save error
 	 */
-	public void saveAccount(Account p_account) throws AtmDataException {
+	public void saveAccount(Account p_account) throws AtmDataException
+	{
 		Calendar now = Calendar.getInstance(); // Gets the current date and
 		// time.
 		Date updateDate = new java.sql.Date(now.getTime().getTime());
 
-		try {
+		try
+		{
 			// ****SQL script creating table takes in an int for 'id' column,
 			// not Long!!!! Should this be cast to Integer (cant cast Long to
 			// Int)?
@@ -69,7 +63,9 @@ public class DataAccess {
 			logger.info("Account with ID " + p_account.getAccountId()
 					+ " successefully saved: ");
 
-		} catch (SQLException ex) {
+		}
+		catch(SQLException ex)
+		{
 			// log saveAccount error
 			logger.severe("SQL Issue with saveAccount method.  Exception: "
 					+ ex);
@@ -85,21 +81,26 @@ public class DataAccess {
 	 * @return An Account reference
 	 * @throws AtmDataException
 	 */
-	public Account getAccount(int p_accountId) throws AtmDataException {
+	public Account getAccount(int p_accountId) throws AtmDataException
+	{
 		Account account = new Account();
 		ResultSet resultSet = null;
 
-		try {
+		try
+		{
 			// set our query to search for the passed in 'accountId'
 			m_selectAccountIndividualStatement.setLong(1, p_accountId);
 			resultSet = m_selectAccountIndividualStatement.executeQuery();
 
 			// this should return only one value since we a querying on a PK
-			while (resultSet.next()) {
+			while(resultSet.next())
+			{
 
 				account = newAccount(resultSet);
 			}
-		} catch (SQLException ex) {
+		}
+		catch(SQLException ex)
+		{
 			// log getAccount error
 			logger.severe("SQL Issue with getAccount method.  Exception: " + ex);
 			throw new AtmDataException(ex);
@@ -114,18 +115,23 @@ public class DataAccess {
 	 * @return List of Accounts
 	 * @throws AtmDataException
 	 */
-	public List<Account> getAllAccounts() throws AtmDataException {
+	public List<Account> getAllAccounts() throws AtmDataException
+	{
 		List<Account> accounts = new ArrayList<Account>();
 		ResultSet resultSet = null;
 
-		try {
+		try
+		{
 			resultSet = m_selectAccountStatement.executeQuery();
 
-			while (resultSet.next()) {
+			while(resultSet.next())
+			{
 
 				accounts.add(newAccount(resultSet));
 			}
-		} catch (SQLException ex) {
+		}
+		catch(SQLException ex)
+		{
 			// log getAllAccounts error
 			logger.severe("SQL Issue with getAllAccounts method.  Exception: "
 					+ ex);
@@ -141,12 +147,14 @@ public class DataAccess {
 	 * @throws AtmDataException
 	 */
 
-	public void saveUser(User user) throws AtmDataException {
+	public void saveUser(User user) throws AtmDataException
+	{
 		Calendar now = Calendar.getInstance(); // Gets the current date and
 												// time.
 		Date updateDate = new java.sql.Date(now.getTime().getTime());
 
-		try {
+		try
+		{
 			m_saveUserStatement.setLong(1, user.getUserId());
 			m_saveUserStatement.setString(2, user.getFirstName());
 			m_saveUserStatement.setString(3, user.getLastName());
@@ -154,7 +162,9 @@ public class DataAccess {
 			m_saveUserStatement.executeUpdate();
 			// log that the info was inserted within the database.
 			logger.info("SaveUser was executed");
-		} catch (SQLException ex) {
+		}
+		catch(SQLException ex)
+		{
 			// log saverUser method
 			logger.severe("SQL Issue with saveUser method.  Exception: " + ex);
 			throw new AtmDataException(ex);
@@ -169,10 +179,12 @@ public class DataAccess {
 	 * @return A new Account.
 	 * @throws AtmDataException
 	 */
-	private Account newAccount(ResultSet p_resultSet) throws AtmDataException {
+	private Account newAccount(ResultSet p_resultSet) throws AtmDataException
+	{
 		Account account = new Account();
 
-		try {
+		try
+		{
 			// Does it matter that column is an int?
 			long accountId = p_resultSet.getLong("id");
 			// Does it matter that column is an int?
@@ -181,7 +193,9 @@ public class DataAccess {
 			double balance = p_resultSet.getDouble("balance");
 			User user = findUser(accountsUserId);
 			account = new Account(accountId, user, name, balance);
-		} catch (SQLException ex) {
+		}
+		catch(SQLException ex)
+		{
 			// log error
 			logger.severe("SQL Issue with newAccount method.  Exception: " + ex);
 			throw new AtmDataException(ex);
@@ -237,14 +251,17 @@ public class DataAccess {
 	 * @return userList
 	 * @throws AtmDataException
 	 */
-	public List<User> getUsers() throws AtmDataException {
+	public List<User> getUsers() throws AtmDataException
+	{
 		List<User> userList = new ArrayList<User>();
 		ResultSet resultSet = null;
 
-		try {
+		try
+		{
 			resultSet = m_selectUserStatement.executeQuery();
 
-			while (resultSet.next()) {
+			while(resultSet.next())
+			{
 				long userId = resultSet.getLong("id");
 				String first = resultSet.getString("first_name");
 				String last = resultSet.getString("last_name");
@@ -252,7 +269,9 @@ public class DataAccess {
 				userList.add(new User(userId, first, last));
 			}
 			logger.info("Returns List of users.");
-		} catch (SQLException ex) {
+		}
+		catch(SQLException ex)
+		{
 			// log getUsers error
 			logger.severe("SQL Issue with getUsers method.  Exception: " + ex);
 			throw new AtmDataException(ex);
@@ -271,10 +290,12 @@ public class DataAccess {
 	 * @throws AtmDataException
 	 */
 	public long getAutentication(long pin, long account_id)
-			throws AtmDataException {
+			throws AtmDataException
+	{
 		ResultSet resultSet = null;
 
-		try {
+		try
+		{
 
 			// pin looks at 'id' column
 			m_selectAuthenticateUserStatement.setLong(1, pin);
@@ -287,7 +308,9 @@ public class DataAccess {
 
 			return userId;
 
-		} catch (SQLException ex) {
+		}
+		catch(SQLException ex)
+		{
 			// log exception
 			logger.severe("SQL Issue with getAutentication method.  Exception: "
 					+ ex.getMessage());
@@ -302,8 +325,10 @@ public class DataAccess {
 	 * 
 	 * @throws AtmDataException
 	 */
-	public void connect() throws AtmDataException {
-		try {
+	public void connect() throws AtmDataException
+	{
+		try
+		{
 			// this will load the MySQL driver, each DB has its own driver
 			Class.forName("com.mysql.jdbc.Driver");
 
@@ -328,12 +353,16 @@ public class DataAccess {
 																		// Added
 			// Nick added END
 			logger.info("Connections set");
-		} catch (SQLException ex) {
+		}
+		catch(SQLException ex)
+		{
 			// log exception
 			logger.severe("SQL Issue with connect method.  Exception: "
 					+ ex.getMessage());
 			throw new AtmDataException(ex);
-		} catch (Exception ex) {
+		}
+		catch(Exception ex)
+		{
 			// log exception
 			logger.severe("There appears to be an issue: " + ex);
 			throw new AtmDataException(ex);
@@ -345,7 +374,8 @@ public class DataAccess {
 	 * 
 	 * @return m_connect
 	 */
-	public Connection getConnection() {
+	public Connection getConnection()
+	{
 		return m_connect;
 	}
 

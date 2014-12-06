@@ -1,7 +1,7 @@
 package main_application;
 
+import main_application.io.TcpServer;
 import test.AbstractTestCase;
-import week06.io.TcpServer;
 
 public class TestCommunication extends AbstractTestCase
 {
@@ -12,7 +12,7 @@ public class TestCommunication extends AbstractTestCase
 	{
 		super("TestCommunication");
 	}
-	
+
 	@Override
 	protected boolean runTest()
 	{
@@ -22,14 +22,14 @@ public class TestCommunication extends AbstractTestCase
 		boolean comms = testComms();
 
 		result = comms;
-		
+
 		return result;
 	}
 
 	private boolean testComms()
 	{
 		TcpServer server = new TcpServer();
-		
+
 		return false;
 	}
 }

@@ -1,8 +1,7 @@
 package main_application;
 
 /**
- * ATM Application Exception class 
- * @author scottl
+ * ATM Application Exception class
  *
  */
 public class AtmException extends Exception
@@ -17,6 +16,7 @@ public class AtmException extends Exception
 
 	/**
 	 * Extends the base Exception class constructor
+	 * 
 	 * @param arg0
 	 */
 	public AtmException(String arg0)
@@ -27,6 +27,7 @@ public class AtmException extends Exception
 
 	/**
 	 * Extends the base Exception class constructor
+	 * 
 	 * @param arg0
 	 */
 	public AtmException(Throwable arg0)
@@ -37,6 +38,7 @@ public class AtmException extends Exception
 
 	/**
 	 * Extends the base Exception class constructor
+	 * 
 	 * @param arg0
 	 */
 	public AtmException(String arg0, Throwable arg1)
@@ -47,6 +49,7 @@ public class AtmException extends Exception
 
 	/**
 	 * Extends the base Exception class constructor
+	 * 
 	 * @param arg0
 	 */
 	public AtmException(String arg0, Throwable arg1, boolean arg2, boolean arg3)

@@ -1,20 +1,14 @@
 package main_application.app;
 
-import week06.core.AtmObject;
+import main_application.core.AtmObject;
 
-/*
-* @author Team 4
-* @author Demetrius Ford
-* @author Susie McQuaig
-* @author Michael Pierre
-* @author Nick Sweeney
-* */
-
-public class Account extends AtmObject {
+public class Account extends AtmObject
+{
 	/**
 	 * Default constructor
 	 */
-	public Account() {
+	public Account()
+	{
 		this(-1, new User(), "Default Account", 0.0);
 	}
 
@@ -30,7 +24,8 @@ public class Account extends AtmObject {
 	 * @param balanace
 	 *            Account balance
 	 */
-	public Account(long id, User user, String name, double balance) {
+	public Account(long id, User user, String name, double balance)
+	{
 		m_accountId = id;
 		m_user = user;
 		m_accountName = name;
@@ -38,25 +33,29 @@ public class Account extends AtmObject {
 	}
 
 	// ***I created THIS!!!!!!!!!!!
-	public double getBalance() {
+	public double getBalance()
+	{
 		return m_balance;
 	}
 
 	/**
 	 * @return the m_userId
 	 */
-	public long getAccountId() {
+	public long getAccountId()
+	{
 		return m_accountId;
 	}
 
-	public User getUser() {
+	public User getUser()
+	{
 		return m_user;
 	}
 
 	/**
 	 * @return the m_userId
 	 */
-	public long getUserId() {
+	public long getUserId()
+	{
 		return m_user.getUserId();
 	}
 
@@ -64,14 +63,16 @@ public class Account extends AtmObject {
 	 * @param m_userId
 	 *            the m_userId to set
 	 */
-	public void setUser(User user) {
+	public void setUser(User user)
+	{
 		this.m_user = user;
 	}
 
 	/**
 	 * @return the m_firstName
 	 */
-	public String getName() {
+	public String getName()
+	{
 		return m_accountName;
 	}
 
@@ -79,25 +80,33 @@ public class Account extends AtmObject {
 	 * @param m_firstName
 	 *            the m_firstName to set
 	 */
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.m_accountName = name;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		boolean result = true;
 
-		if (obj == null) {
+		if(obj == null)
+		{
 			result = false;
-		} else if (getClass() != obj.getClass()) {
+		}
+		else if(getClass() != obj.getClass())
+		{
 			result = false;
-		} else {
+		}
+		else
+		{
 			// valid User object, check the contents
-			final Account otherUser = (Account) obj;
-			if (!this.m_accountName.equals(otherUser.m_accountName)
+			final Account otherUser = (Account)obj;
+			if(!this.m_accountName.equals(otherUser.m_accountName)
 					|| !this.m_user.equals(otherUser.m_user)
 					|| !(this.m_balance == otherUser.m_balance)
-					|| !(this.m_accountId == otherUser.m_accountId)) {
+					|| !(this.m_accountId == otherUser.m_accountId))
+			{
 				result = false;
 			}
 		}
@@ -106,7 +115,8 @@ public class Account extends AtmObject {
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		String fmt = String.format("ID: %d, %s %d", this.m_accountId,
 				this.m_accountName, this.m_balance);
 		return fmt;

@@ -1,37 +1,38 @@
 package main_application.data;
 
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 
-import week06.data.AtmDataException;
-import week06.data.DataAccess;
-import week06.app.Account;
-import week06.app.User;
-import week06.util.LoginRequest;
+public class DataBaseAccessTestNICK
+{
 
-public class DataBaseAccessTestNICK {
-
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 
 		// Create instance of the DataAccess class and get a connection for it.
 		DataAccess da = new DataAccess();
 		Connection conn = da.getConnection();
-		try {
+		try
+		{
 			da.connect();
-		} catch (AtmDataException e) {
+		}
+		catch(AtmDataException e)
+		{
 			System.out.println("db Connection issue.");
 			e.printStackTrace();
 		}
 
 		boolean isLoginValid = false;
 
-		try {
-			if (da.getAutentication(111, 222) > 0) {
+		try
+		{
+			if(da.getAutentication(111, 222) > 0)
+			{
 				System.out
 						.println("Login valid:  There is a user in the db with pin/id value in id column with value of 111 and userid value of 222 in account table.");
 			}
-		} catch (AtmDataException e) {
+		}
+		catch(AtmDataException e)
+		{
 			System.out.println("db Connection issue.");
 			e.printStackTrace();
 		}
